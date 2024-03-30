@@ -3,4 +3,9 @@ digraph G {
   q0 [shape=point];
   start -> q0;
   q1 [shape=doublecircle];
-  q0 -> q1 [label="a"];
+  q0 -> q1 [label="ab"];
+  q1 -> q3 [label="c"];
+  q3 -> q1;
+  q3 -> q5 [label="ε"];
+  q5 -> q3;
+}
