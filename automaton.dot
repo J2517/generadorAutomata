@@ -4,8 +4,22 @@ digraph G {
   start -> q0;
   q1 [shape=doublecircle];
   q0 -> q1 [label="ab"];
-  q1 -> q3 [label="c"];
+  q1 -> q3 [label="b"];
   q3 -> q1;
   q3 -> q5 [label="ε"];
   q5 -> q3;
+  q3 -> q6 [label="ε"];
+  q6 -> q3;
+  q6 -> q8 [label="a"];
+  q8 -> q9 [label="ε"];
+  q9 -> q8;
+  q9 -> q10 [label="b"];
+  q10 -> q1;
+  q10 -> q12 [label="ε"];
+  q12 -> q10;
+  q10 -> q13 [label="b"];
+  q13 -> q15 [label="b"];
+  q15 -> q1;
+  q15 -> q17 [label="ε"];
+  q17 -> q15;
 }
