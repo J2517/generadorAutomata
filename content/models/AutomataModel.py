@@ -77,10 +77,11 @@ class AutomataModel:
                     # Si es un operador de repetición 1 o más veces, crear una transición del estado actual al siguiente estado
                     f.write(f'  {current_state} -> {next_state} [label="ε"];\n')
                     f.write(f"  {next_state} -> {current_state};\n")
+                    f.write(f'  {next_state} -> {next_state} [label="{tokens[tokens.index(token) - 1]}"];\n')
                     current_state = next_state
                 elif token == "*":
                     # Si es un operador de repetición 0 o más veces, crear un bucle en el estado actual
-                    f.write(f'  {current_state} -> {current_state} [label="ε"];\n')
+                    f.write(f'  {current_state} -> {current_state} [label="{tokens[tokens.index(token) - 1]}"];\n')
                 elif token == "|":
                     # Si es un operador de alternativa, crear una transición del estado inicial a los siguientes estados
                     f.write(f'  start -> {next_state} [label="ε"];\n')

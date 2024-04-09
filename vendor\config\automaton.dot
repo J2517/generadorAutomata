@@ -2,8 +2,9 @@ digraph G {
   rankdir=LR;
   q0 [shape=point];
   start -> q0;
-  q1 [shape=doublecircle];
   q0 -> q1 [label="a"];
   q1 -> q2 [label="b"];
   q2 -> q3 [label="c"];
+  q3 -> q3 [label="c"];
+  q3 [shape=doublecircle];
 }
