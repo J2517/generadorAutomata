@@ -56,22 +56,12 @@ class AutomataModel:
             f.write(f"  {initial_state} [shape=point];\n")
             f.write("  start -> {};\n".format(initial_state))
 
-            # Estado final
-            final_state = f"q{state_count + 1}"
-            f.write(f"  {final_state} [shape=doublecircle];\n")
-
             # Estado actual
             current_state = initial_state
+            final_state = initial_state  # Inicializar el estado final con el inicial
 
-            # Contador de estados creados
-            # state_count = 0
-
-        # Iterar sobre los tokens
+            # Iterar sobre los tokens
             for token in tokens:
-                # if state_count >= 3:
-                # Si ya hemos alcanzado el máximo de 4 estados, detener la creación de nuevos estados
-                #   break
-            
                 # Generar nombres de estados
                 state_count += 1
                 next_state = f"q{state_count}"
@@ -82,25 +72,28 @@ class AutomataModel:
                     pass
                 elif token == ")":
                     # Si es un paréntesis derecho, volver al estado anterior
-                    f.write(f"  {current_state} -> {final_state};\n")
+                    f.write(f"  {current_state} -> {next_state};\n")
                 elif token == "+":
                     # Si es un operador de repetición 1 o más veces, crear una transición del estado actual al siguiente estado
                     f.write(f'  {current_state} -> {next_state} [label="ε"];\n')
                     f.write(f"  {next_state} -> {current_state};\n")
                     current_state = next_state
                 elif token == "*":
-                    # Si es un operador de repetición 0 o más veces, crear una transición del estado actual al siguiente estado
-                    f.write(f'  {current_state} -> {next_state} [label="ε"];\n')
-                    f.write(f"  {next_state} -> {current_state};\n")
+                    # Si es un operador de repetición 0 o más veces, crear un bucle en el estado actual
+                    f.write(f'  {current_state} -> {current_state} [label="ε"];\n')
                 elif token == "|":
                     # Si es un operador de alternativa, crear una transición del estado inicial a los siguientes estados
                     f.write(f'  start -> {next_state} [label="ε"];\n')
-                    f.write(f"  {current_state} -> {final_state};\n")
+                    f.write(f"  {current_state} -> {next_state};\n")
                     current_state = next_state
                 else:
                     # Si es un carácter, crear una transición del estado actual al siguiente estado con el carácter como etiqueta
                     f.write(f'  {current_state} -> {next_state} [label="{token}"];\n')
                     current_state = next_state
+                    final_state = current_state  # Actualizar el estado final
+
+            # Estado final
+            f.write(f"  {final_state} [shape=doublecircle];\n")
 
             # Escribir el cierre del archivo DOT
             f.write("}\n")
